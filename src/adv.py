@@ -53,3 +53,37 @@ player = Player(room['outside'])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+deadend = "Nowhere to go in that direciton. Try a different direction."
+
+while True:
+    print(player.location.name)
+    print(player.location.description)
+    player_input = input("Which way wilst though go next? Enter a cardinal direction or enter 'quit': ")
+    player_input = player_input.lower()
+    print(player_input)
+    if player_input == ('north' or 'n'):
+        if hasattr(player.location, 'n_to'):
+            player.location = player.location.n_to
+        else:
+            print(deadend)
+    elif player_input == ('south' or 's'):
+        if hasattr(player.location, 's_to'):
+            player.location = player.location.s_to
+        else:
+            print(deadend)
+    elif player_input == ('west' or 'w'):
+        if hasattr(player.location, 'w_to'):
+            player.location = player.location.w_to
+        else:
+            print(deadend)
+    elif player_input == ('east' or 'e'):
+        if hasattr(player.location, 'e_to'):
+            player.location = player.location.e_to
+        else:
+            print(deadend)
+    elif player_input == ('q' or 'quit'):
+        print("You take a rest. See you next time!")
+        break
+    else:
+        print("Didn't recognize that input, try again.")
