@@ -54,35 +54,24 @@ player = Player(room['outside'])
 #
 # If the user enters "q", quit the game.
 
-deadend = "Nowhere to go in that direciton. Try a different direction."
 
 while True:
     print(player.location.name)
     print(player.location.description)
     player_input = input("Which way wilst though go next? Enter a cardinal direction or enter 'quit': ")
-    player_input = player_input.lower()
-    print(player_input)
-    if player_input == ('north' or 'n'):
-        if hasattr(player.location, 'n_to'):
-            player.location = player.location.n_to
-        else:
-            print(deadend)
-    elif player_input == ('south' or 's'):
-        if hasattr(player.location, 's_to'):
-            player.location = player.location.s_to
-        else:
-            print(deadend)
-    elif player_input == ('west' or 'w'):
-        if hasattr(player.location, 'w_to'):
-            player.location = player.location.w_to
-        else:
-            print(deadend)
-    elif player_input == ('east' or 'e'):
-        if hasattr(player.location, 'e_to'):
-            player.location = player.location.e_to
-        else:
-            print(deadend)
-    elif player_input == ('q' or 'quit'):
+    player_input = player_input.lower().split(' ')
+
+    print(player.path)
+    print(player_input[0])
+
+
+    if (player_input[0] == 'north') or (player_input[0] == 'n') or (player_input[0] == 'south') or (player_input[0] == 's') or (player_input[0] == 'west') or (player_input[0] == 'w') or (player_input[0] == 'east') or (player_input[0] == 'e') or (player_input[0] == 'back'):
+        player.move(player_input[0])
+        print(player.path)
+    elif ((player_input[0] == 'move') or (player_input[0] == 'go') or (player_input[0] == 'walk')) and ( (player_input[1] == 'north') or (player_input[1] == 'n') or (player_input[1] == 'south') or (player_input[1] == 's') or (player_input[1] == 'west') or (player_input[1] == 'w') or (player_input[1] == 'east') or (player_input[1] == 'e') or (player_input[1] == 'back')):
+        player.move(player_input[1])
+        print(player.path)
+    elif player_input[0] == ('q' or 'quit'):
         print("You take a rest. See you next time!")
         break
     else:
