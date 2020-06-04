@@ -88,6 +88,15 @@ while True:
                 print("That item isn't here.")
         else:
             print("What would you like to take?")
+    elif (player_input[0] == 'drop') or (player_input[0] == 'leave'):
+        if player_input[1]:
+            item = player.dropitem(player_input[1])
+            if item:
+                player.location.recieveitem(item)
+            else:
+                print("You don't have that item.")
+        else:
+            print("What would you like to drop?")
     elif (player_input[0] == 'q') or (player_input[0] == 'quit'):
         while True:
             should_save = input("Would you like to save before quitting? Y/n")
@@ -108,7 +117,7 @@ while True:
         print("You can 'go north' or any other cardinal direction.")
         print("You can 'look' to see the description of the room you are in.")
         print("You can 'search' to try to find any items.")
-        print("You can 'take [item]' to put an item you find in your inventory.")
+        print("You can 'take [item]' to put an item you find in your inventory, or 'drop [item]'.")
         print("Type 'quit' to save and quit.")
     else:
         print("Didn't recognize that input, try again. Type 'help' to view the list of commands.")

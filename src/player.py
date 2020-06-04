@@ -67,6 +67,13 @@ class Player:
     def recieveitem(self, item):
         self.items.append(item)
         print(f"You put {item.name} in your inventory.")
+    def dropitem(self, itemname):
+        if next(item for item in self.items if item.name.lower() == itemname):
+            item = next(item for item in self.items if item.name.lower() == itemname)
+            self.items.remove(item)
+            return item
+        else:
+            return False
     def jsonformat(self):
         return json.dumps({
             "name": self.name,

@@ -24,6 +24,9 @@ class Room:
             return item
         else:
             return False
+    def recieveitem(self, item):
+        self.items.append(item)
+        print(f"You put down the {item.name}.")
     def jsonformat(self):
         return json.dumps({
             "name": self.name,
