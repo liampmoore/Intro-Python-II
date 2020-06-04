@@ -68,10 +68,12 @@ while True:
 
     if (player_input[0] == 'north') or (player_input[0] == 'n') or (player_input[0] == 'south') or (player_input[0] == 's') or (player_input[0] == 'west') or (player_input[0] == 'w') or (player_input[0] == 'east') or (player_input[0] == 'e') or (player_input[0] == 'back'):
         player.move(player_input[0])
-        print(player.path)
     elif ((player_input[0] == 'move') or (player_input[0] == 'go') or (player_input[0] == 'walk')) and ( (player_input[1] == 'north') or (player_input[1] == 'n') or (player_input[1] == 'south') or (player_input[1] == 's') or (player_input[1] == 'west') or (player_input[1] == 'w') or (player_input[1] == 'east') or (player_input[1] == 'e') or (player_input[1] == 'back')):
         player.move(player_input[1])
-        print(player.path)
+    elif (player_input[0] == 'inventory'):
+        player.inventory()
+    elif (player_input[0] == 'search'):
+        player.location.search()
     elif (player_input[0] == 'q') or (player_input[0] == 'quit'):
         while True:
             should_save = input("Would you like to save before quitting? Y/n")
