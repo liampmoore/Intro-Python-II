@@ -15,7 +15,6 @@ from player import Player
 # Try to load player with specified name
 # If no file is found create a new player with specified name that is currently in the 'outside' room.
 
-
 ## Load function
 def load():
     while True:
@@ -59,17 +58,20 @@ def save(player):
 # If the user enters "q", quit the game.
 
 player = load()
+print(player.location.name)
+print(player.location.description)
 
 while True:
-    print(player.location.name)
-    print(player.location.description)
-    player_input = input("Which way wilst though go next? Enter a cardinal direction or enter 'quit': ")
+    player_input = input("What will you do next? Enter 'help' to see some options: ")
     player_input = player_input.lower().split(' ')
 
     if (player_input[0] == 'north') or (player_input[0] == 'n') or (player_input[0] == 'south') or (player_input[0] == 's') or (player_input[0] == 'west') or (player_input[0] == 'w') or (player_input[0] == 'east') or (player_input[0] == 'e') or (player_input[0] == 'back'):
         player.move(player_input[0])
     elif ((player_input[0] == 'move') or (player_input[0] == 'go') or (player_input[0] == 'walk')) and ( (player_input[1] == 'north') or (player_input[1] == 'n') or (player_input[1] == 'south') or (player_input[1] == 's') or (player_input[1] == 'west') or (player_input[1] == 'w') or (player_input[1] == 'east') or (player_input[1] == 'e') or (player_input[1] == 'back')):
         player.move(player_input[1])
+    elif (player_input[0] == 'look') or (player_input[0] == 'room') or (player_input[0] == 'location') or (player_input[0] == 'where') or (player_input[0] == 'explore'):
+        print(player.location.name)
+        print(player.location.description)
     elif (player_input[0] == 'inventory'):
         player.inventory()
     elif (player_input[0] == 'search'):
@@ -99,5 +101,11 @@ while True:
                 print("Didn't recognize that input. Try again.")
         print("See you next time!")
         break
+    elif (player_input[0] == 'help') or (player_input[0] == 'commands') or (player_input[0] == 'h'):
+        print("You can 'go north' or any other cardinal direction.")
+        print("You can 'look' to see the description of the room you are in.")
+        print("You can 'search' to try to find any items.")
+        print("You can 'take [item]' to put an item you find in your inventory.")
+        print("Type 'quit' to save and exit.")
     else:
-        print("Didn't recognize that input, try again.")
+        print("Didn't recognize that input, try again. Type 'help' to view the list of commands.")
