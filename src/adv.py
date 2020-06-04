@@ -74,6 +74,15 @@ while True:
         player.inventory()
     elif (player_input[0] == 'search'):
         player.location.search()
+    elif (player_input[0] == 'get') or (player_input[0] == 'take'):
+        if player_input[1]:
+            item = player.location.takeitem(player_input[1])
+            if item:
+                player.recieveitem(item)
+            else:
+                print("That item isn't here.")
+        else:
+            print("What would you like to take?")
     elif (player_input[0] == 'q') or (player_input[0] == 'quit'):
         while True:
             should_save = input("Would you like to save before quitting? Y/n")

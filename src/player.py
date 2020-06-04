@@ -57,6 +57,9 @@ class Player:
         print("You look over your inventory:")
         for item in self.items:
             print(item.name)
+    def recieveitem(self, item):
+        self.items.append(item)
+        print(f"You put {item.name} in your inventory.")
     def jsonformat(self):
         return json.dumps({
             "name": self.name,
