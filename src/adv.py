@@ -1,47 +1,50 @@
 from room import Room
-
-# Declare all the rooms
-
-room = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
-
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
-
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
-
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
-
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
-}
-
-
-# Link rooms together
-
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+from rooms import rooms
+from items import items
 
 #
 # Main
 #
 
-# Make a new player object that is currently in the 'outside' room.
 
+
+import json
+import os
 from player import Player
 
-player = Player(room['outside'])
+# Try to load player with specified name
+# If no file is found create a new player with specified name that is currently in the 'outside' room.
+
+
+## Load function
+def load():
+    while True:
+        name = input("What is thy name adventurer? ")
+        name = name.replace(" ", "_")
+        if os.path.exists("./saves/" + name + ".json"):
+            savefile = open("./saves/" + name + ".json", "r")
+            player_json = savefile.read()
+            player_dict = json.loads(player_json)
+            player = Player(name = player_dict['name'], location = rooms[player_dict["location"]], items = [items[item_id] for item_id in player_dict["items"]])
+            print(f"Game loaded. Welcome back, {player.name}.")
+            return player
+        else:
+            player = Player(name, rooms['outside'])
+            print(f"New game. Welcome, {player.name}")
+            return player
+            
+
+## Save function
+def save(player):
+    if not os.path.exists('saves'):
+        os.makedirs('saves')
+    filename = "./saves/{}.json".format(player.name)
+    savefile = open(filename, "w")
+    savefile.write(player.jsonformat())
+    savefile.close()
+    print("Game saved!")
+
+
 
 # Write a loop that:
 #
@@ -50,10 +53,12 @@ player = Player(room['outside'])
 # * Waits for user input and decides what to do.
 #
 # If the user enters a cardinal direction, attempt to move to the room there.
+# If the user enters 'back' go back one room.
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
 
+player = load()
 
 while True:
     print(player.location.name)
@@ -61,18 +66,27 @@ while True:
     player_input = input("Which way wilst though go next? Enter a cardinal direction or enter 'quit': ")
     player_input = player_input.lower().split(' ')
 
-    print(player.path)
-    print(player_input[0])
-
-
     if (player_input[0] == 'north') or (player_input[0] == 'n') or (player_input[0] == 'south') or (player_input[0] == 's') or (player_input[0] == 'west') or (player_input[0] == 'w') or (player_input[0] == 'east') or (player_input[0] == 'e') or (player_input[0] == 'back'):
         player.move(player_input[0])
         print(player.path)
     elif ((player_input[0] == 'move') or (player_input[0] == 'go') or (player_input[0] == 'walk')) and ( (player_input[1] == 'north') or (player_input[1] == 'n') or (player_input[1] == 'south') or (player_input[1] == 's') or (player_input[1] == 'west') or (player_input[1] == 'w') or (player_input[1] == 'east') or (player_input[1] == 'e') or (player_input[1] == 'back')):
         player.move(player_input[1])
         print(player.path)
-    elif player_input[0] == ('q' or 'quit'):
-        print("You take a rest. See you next time!")
+    elif (player_input[0] == 'q') or (player_input[0] == 'quit'):
+        while True:
+            should_save = input("Would you like to save before quitting? Y/n")
+            should_save = should_save.lower()
+            if (should_save == 'yes') or (should_save == 'y'):
+                save(player)
+                break
+            elif (should_save == 'no') or (should_save == 'n'):
+                break
+            elif (should_save == ''):
+                save(player)
+                break
+            else:
+                print("Didn't recognize that input. Try again.")
+        print("See you next time!")
         break
     else:
         print("Didn't recognize that input, try again.")

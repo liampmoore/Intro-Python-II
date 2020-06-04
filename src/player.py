@@ -1,3 +1,5 @@
+import json
+
 # Write a class to hold player information, e.g. what room they are in
 # currently.
 
@@ -5,9 +7,10 @@
 deadend = "Nowhere to go in that direction. Try a different direction."
 
 class Player:
-    def __init__(self, location):
+    def __init__(self, name, location, items = []):
+        self.name = name
         self.location = location
-        self.items = []
+        self.items = items
         self.path = []
     def move(self, direction):
         if direction == ('north' or 'n'):
@@ -50,3 +53,9 @@ class Player:
                     self.path.pop()
             else:
                 print("You've only just started, there is nowhere to go back to.")
+    def jsonformat(self):
+        return json.dumps({
+            "name": self.name,
+            "location": self.location.id,
+            "items": [item.id for item in self.items]
+        })
