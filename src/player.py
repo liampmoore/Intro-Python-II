@@ -1,5 +1,6 @@
 import json
 from rooms import buildrooms
+from items import getitemsbyids
 
 # Write a class to hold player information, e.g. what room they are in
 # currently.
@@ -8,13 +9,12 @@ from rooms import buildrooms
 deadend = "Nowhere to go in that direction. Try a different direction."
 
 class Player:
-    def __init__(self, name, location, items = [], rooms = None):
+    def __init__(self, name = 'Adventurer', location = 'outside', items = [], rooms = None):
         self.name = name
-        self.items = items
-        self.path = []
+        self.items = getitemsbyids(items)
         self.rooms = buildrooms(rooms)
         self.location = self.rooms[location]
-
+        self.path = []
 
     def move(self, direction):
         if direction == ('north' or 'n'):
@@ -57,6 +57,7 @@ class Player:
                     self.path.pop()
             else:
                 print("You've only just started, there is nowhere to go back to.")
+        self.location.discovered = True
     def inventory(self):
         if len(self.items) > 0:
             print("You look over your inventory:")
@@ -74,10 +75,10 @@ class Player:
             return item
         else:
             return False
-    def jsonformat(self):
-        return json.dumps({
+    def save(self):
+        return {
             "name": self.name,
             "location": self.location.id,
             "items": [item.id for item in self.items],
-            "rooms": [room.jsonformat() for room in self.rooms.values()]
-        })
+            "rooms": [room.save() for room in self.rooms.values()]
+        }

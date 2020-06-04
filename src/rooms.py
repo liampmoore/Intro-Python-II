@@ -7,7 +7,7 @@ from room import Room
 
 defaultrooms = {
      'outside':  {"name":"Outside Cave Entrance",
-                     "description":"North of you, the cave mount beckons", 'id':'outside'},
+                     "description":"North of you, the cave mount beckons", 'id':'outside', 'discovered':True},
     'foyer':    {"name":"Foyer", "description":"""Dim light filters in from the south. Dusty
 passages run north and east.""", 'id':'foyer', "item_ids": [0]},
 
@@ -29,8 +29,7 @@ def buildrooms(rooms):
     # If there is a save file
     if rooms:
         for room in rooms:
-            room_dict = json.loads(room)
-            builtrooms[room_dict['id']] = Room(**room_dict)
+            builtrooms[room['id']] = Room(**room)
     # If no save file use defaults
     else:
         for room in defaultrooms.values():

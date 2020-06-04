@@ -5,11 +5,12 @@ import json
 from items import items
 
 class Room:
-    def __init__(self, name, description, id, item_ids = []):
+    def __init__(self, name, description, id, item_ids = [], discovered = False):
         self.name = name
         self.description = description
         self.items = [items[item_id] for item_id in item_ids]
         self.id = id
+        self.discovered = discovered
     def search(self):
             if len(self.items) > 0:
                 print("You search the area and find:")
@@ -27,11 +28,12 @@ class Room:
     def recieveitem(self, item):
         self.items.append(item)
         print(f"You put down the {item.name}.")
-    def jsonformat(self):
-        return json.dumps({
+    def save(self):
+        return {
             "name": self.name,
             "description": self.description,
             "item_ids": [item.id for item in self.items],
-            "id": self.id
-        })
+            "id": self.id,
+            "discovered" : self.discovered
+        }
         
