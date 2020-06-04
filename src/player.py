@@ -6,7 +6,7 @@ from items import getitemsbyids
 # currently.
 
 
-deadend = "Nowhere to go in that direction. Try a different direction."
+
 
 class Player:
     def __init__(self, name = 'Adventurer', location = 'outside', items = [], rooms = None):
@@ -17,6 +17,7 @@ class Player:
         self.path = []
 
     def move(self, direction):
+        deadend = "Nowhere to go in that direction. Try a different direction."
         if direction == ('north' or 'n'):
             if hasattr(self.location, 'n_to'):
                 self.location = self.location.n_to
