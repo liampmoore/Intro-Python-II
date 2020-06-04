@@ -1,15 +1,8 @@
 
 
-#
-# Main
-#
-
-
-
 import json
 import os
 from player import Player
-from items import items
 
 # Try to load player with specified name
 # If no file is found create a new player with specified name that is currently in the 'outside' room.
@@ -123,5 +116,3 @@ while True:
         os.system('clear')
     else:
         print("Didn't recognize that input, try again. Type 'help' to view the list of commands.")
-    for room in player.rooms.values():
-        print(f"{room.name} {room.discovered}")
