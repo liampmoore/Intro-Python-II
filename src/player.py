@@ -53,6 +53,10 @@ class Player:
                     self.path.pop()
             else:
                 print("You've only just started, there is nowhere to go back to.")
+    def inventory(self):
+        print("You look over your inventory:")
+        for item in self.items:
+            print(item.name)
     def jsonformat(self):
         return json.dumps({
             "name": self.name,
