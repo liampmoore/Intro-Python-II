@@ -1,6 +1,7 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
 
+import json
 from items import items
 
 class Room:
@@ -23,3 +24,11 @@ class Room:
             return item
         else:
             return False
+    def jsonformat(self):
+        return json.dumps({
+            "name": self.name,
+            "description": self.description,
+            "item_ids": [item.id for item in self.items],
+            "id": self.id
+        })
+        

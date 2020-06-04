@@ -1,5 +1,4 @@
 from room import Room
-from rooms import rooms
 from items import items
 
 #
@@ -18,17 +17,17 @@ from player import Player
 ## Load function
 def load():
     while True:
-        name = input("What is thy name adventurer? ")
-        name = name.replace(" ", "_")
-        if os.path.exists("./saves/" + name + ".json"):
-            savefile = open("./saves/" + name + ".json", "r")
+        inputname = input("What is thy name adventurer? ")
+        inputname = inputname.replace(" ", "_")
+        if os.path.exists("./saves/" + inputname + ".json"):
+            savefile = open("./saves/" + inputname + ".json", "r")
             player_json = savefile.read()
             player_dict = json.loads(player_json)
-            player = Player(name = player_dict['name'], location = rooms[player_dict["location"]], items = [items[item_id] for item_id in player_dict["items"]])
+            player = Player(name = player_dict['name'], location = player_dict["location"], items = [items[item_id] for item_id in player_dict["items"]], rooms = player_dict["rooms"])
             print(f"Game loaded. Welcome back, {player.name}.")
             return player
         else:
-            player = Player(name, rooms['outside'])
+            player = Player(name = inputname, location = 'outside')
             print(f"New game. Welcome, {player.name}")
             return player
             
@@ -67,8 +66,12 @@ while True:
 
     if (player_input[0] == 'north') or (player_input[0] == 'n') or (player_input[0] == 'south') or (player_input[0] == 's') or (player_input[0] == 'west') or (player_input[0] == 'w') or (player_input[0] == 'east') or (player_input[0] == 'e') or (player_input[0] == 'back'):
         player.move(player_input[0])
+        print(player.location.name)
+        print(player.location.description)
     elif ((player_input[0] == 'move') or (player_input[0] == 'go') or (player_input[0] == 'walk')) and ( (player_input[1] == 'north') or (player_input[1] == 'n') or (player_input[1] == 'south') or (player_input[1] == 's') or (player_input[1] == 'west') or (player_input[1] == 'w') or (player_input[1] == 'east') or (player_input[1] == 'e') or (player_input[1] == 'back')):
         player.move(player_input[1])
+        print(player.location.name)
+        print(player.location.description)
     elif (player_input[0] == 'look') or (player_input[0] == 'room') or (player_input[0] == 'location') or (player_input[0] == 'where') or (player_input[0] == 'explore'):
         print(player.location.name)
         print(player.location.description)
@@ -106,6 +109,6 @@ while True:
         print("You can 'look' to see the description of the room you are in.")
         print("You can 'search' to try to find any items.")
         print("You can 'take [item]' to put an item you find in your inventory.")
-        print("Type 'quit' to save and exit.")
+        print("Type 'quit' to save and quit.")
     else:
         print("Didn't recognize that input, try again. Type 'help' to view the list of commands.")
