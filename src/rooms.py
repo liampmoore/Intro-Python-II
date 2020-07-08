@@ -11,7 +11,7 @@ defaultrooms = {
                      "description":"North of you, the cave mount beckons", 'id':'outside', 'discovered':True},
     'foyer':    {"name":"Foyer", "description":"""Dim light filters in from the south. Dusty
 passages run north and east, a small wooden door to the west.""", 'id':'foyer', "item_ids": [0]},
-    'storage': {"name":"Storage Room", "description":"""A small storage room full of grain barrels.""", 'id':'storage', "item_ids":[0]},
+    'storage': {"name":"Storage Room", "description":"""A small storage room full of grain barrels.""", 'id':'storage', "item_ids":[1]},
 
     'overlook': {"name":"Grand Overlook", "description":"""A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
