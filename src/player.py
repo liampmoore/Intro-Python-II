@@ -20,26 +20,58 @@ class Player:
         deadend = "Nowhere to go in that direction. Try a different direction."
         if direction == ('north' or 'n'):
             if hasattr(self.location, 'n_to'):
-                self.location = self.location.n_to
-                self.path.append('south')
+                if self.location.n_passage:
+                  if self.location.n_passage.is_open:
+                    self.location = self.location.n_to
+                    self.path.append('south')
+                  else:
+                      print("There is a " + self.location.n_passage.closed_description + " to the north.")
+                      print("You'll need to figure out a way through.")
+                else:
+                    self.location = self.location.n_to
+                    self.path.append('south')
             else:
                 print(deadend)
         elif direction == ('south' or 's'):
             if hasattr(self.location, 's_to'):
-                self.location = self.location.s_to
-                self.path.append('north')
+                if self.location.s_passage:
+                  if self.location.s_passage.is_open:
+                    self.location = self.location.s_to
+                    self.path.append('north')
+                  else:
+                      print("There is a " + self.location.s_passage.closed_description + " to the south.")
+                      print("You'll need to figure out a way through.")
+                else:
+                    self.location = self.location.s_to
+                    self.path.append('north')
             else:
                 print(deadend)
         elif direction == ('west' or 'w'):
             if hasattr(self.location, 'w_to'):
-                self.location = self.location.w_to
-                self.path.append('east')
+                if self.location.w_passage:
+                  if self.location.w_passage.is_open:
+                    self.location = self.location.w_to
+                    self.path.append('east')
+                  else:
+                      print("There is a " + self.location.w_passage.closed_description + " to the west.")
+                      print("You'll need to figure out a way through.")
+                else:
+                    self.location = self.location.w_to
+                    self.path.append('east')
             else:
                 print(deadend)
         elif direction == ('east' or 'e'):
             if hasattr(self.location, 'e_to'):
-                self.location = self.location.e_to
-                self.path.append('west')
+                if self.location.e_passage:
+                  if self.location.e_passage.is_open:
+                    self.location = self.location.e_to
+                    self.path.append('west')
+                  else:
+                      print("There is a " + self.location.e_passage.closed_description + " to the east.")
+                      print("You'll need to figure out a way through.")
+                else:
+                    self.location = self.location.e_to
+                    self.path.append('west')
             else:
                 print(deadend)
         elif direction == ('back'):
